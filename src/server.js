@@ -1,13 +1,34 @@
-const express = require("express");
-const app = express();
+/* eslint-disable no-console */
+/**
+ * Updated by trungquandev.com's author on August 17 2023
+ * YouTube: https://youtube.com/@trungquandev
+ * "A bit of fragrance clings to the hand that gives flowers!"
+ */
 
-const port = 8011;
-const hostname = "localhost";
+import express from 'express'
+import { CONNECT_DB, GET_DB } from './config/mongodb'
 
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
+const START_SERVER = () => {
+  const app = express()
 
-app.listen(port, hostname, () => {
-  console.log(`I'am running server http://${hostname}:${port}`);
-});
+  const hostname = 'localhost'
+  const port = 8017
+
+  app.get('/', (req, res) => {
+    res.end('<h1>Hello World!</h1><hr>')
+  })
+
+  app.listen(port, hostname, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Hello world, I am running at http://${hostname}:${port}/`)
+  })
+}
+
+CONNECT_DB()
+  .then(() => {
+    START_SERVER()
+  })
+  .catch((error) => {
+    console.error(error)
+    process.exit(0)
+  })
